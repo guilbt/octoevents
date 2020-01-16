@@ -1,23 +1,37 @@
-```bash
-curl http://localhost:8080/
+This application was created using https://github.com/auth0-blog/kotlin-spring-boot project as a boilerplate.
+
+STEPS TO RUN THIS APPLICATION
+
+1. You need to have a postgres server running in 5432 port or change the database configuration in the application.yml. It also has to have the default "postgres" database.
+To create a new dockerized database, you can use the following command:
+```
+docker run --name octoevents-postgres -p 5432:5432 -e POSTGRES_PASSWORD=octoevents42 -d postgres
 ```
 
-```bash
-curl -H "Content-Type: application/json" -X POST -d '{
-    "firstName": "Bruno",
-    "lastName": "Krebs"
-}'  http://localhost:8080/
+2. Your database has to have a schema named "octoevents";
+
+If you are using the dockerized database, you have to exec it's psql first with:
+```
+docker exec -i octoevents-postgres psql -U postgres
 ```
 
-
-```bash
-curl -X DELETE http://localhost:8080/1
+then create the schema with:
 ```
+create schema octoevents;
+``` 
 
-```bash
-curl -H "Content-Type: application/json" -X PUT -d '{
-    "id": 6,
-    "firstName": "Bruno",
-    "lastName": "Simões Krebs"
-}'  http://localhost:8080/6
+3. Your "octoevents" schema has to have the ISSUE_EVENT table;
+
+inside the psql console, run the following script;
+
+```
+create table octoevents.ISSUE_EVENT
+(
+	ISSUE_EVENT_ID bigserial not null
+		constraint ISSUE_EVENT_pk
+			primary key,
+	ISSUE_ID int8 not null,
+	ACTION varchar(50) not null,
+	CREATED_AT timestamp not null
+);
 ```

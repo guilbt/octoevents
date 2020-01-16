@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    name: octoevents
+    active: prod
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: octoevents42
+
+server:
+  port: 8080
