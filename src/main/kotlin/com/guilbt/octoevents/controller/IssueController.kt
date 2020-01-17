@@ -20,7 +20,7 @@ class IssueController(private val issueService : IssueService) {
 	fun getEvents(@PathVariable id: Long) : List<IssueEventReflection> = issueService.getEvents(id)
 
 	@PostMapping("/webhook")
-	fun postGithubEvent(@RequestBody eventString: String) : ResponseEntity<Any> {
+	fun postGithubEvent(@RequestBody eventString: String) : Any {
 		try {
 			val event = JSONObject(eventString);
 			if(!event.has("issue") || event.has("comment")) {
@@ -28,7 +28,7 @@ class IssueController(private val issueService : IssueService) {
 					"Event isn't a IssueEvent"
 				);
 			}
-			return ResponseEntity.ok().body(issueService.createIssueEventByJSONObject(event))
+			return issueService.createIssueEventByJSONObject(event)
 		} catch (e: JSONException) {
 			return ResponseEntity.badRequest().body(
 					String.format("Malformed Object, error: %s", e.localizedMessage)
