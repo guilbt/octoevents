@@ -13,7 +13,7 @@ interface IssueEventRepository : JpaRepository<IssueEvent, Long> {
 		SELECT 
 			    "action" as action,
 			    CREATED_AT as createdAt 
-			  FROM postgres.octoevents.ISSUE_EVENT
+			  FROM test.octoevents.ISSUE_EVENT
 			  WHERE ISSUE_ID = :issueId 
 	""", nativeQuery = true)
 	fun getByIssueId(@Param("issueId") issueId: Long): List<IssueEventReflection>

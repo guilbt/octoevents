@@ -3,9 +3,13 @@ spring:
     name: octoevents
     active: prod
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://db:5432/test
     username: postgres
     password: octoevents42
 
 server:
   port: 8080
+logging:
+  file: /var/octoevents.log
+  level: INFO
+

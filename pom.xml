@@ -5,7 +5,7 @@
 
 	<groupId>com.guilbt</groupId>
 	<artifactId>octoevents</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>octoevents</name>
@@ -74,6 +74,7 @@
 	<build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+		<finalName>octoevents</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
