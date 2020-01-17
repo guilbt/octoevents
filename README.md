@@ -38,7 +38,10 @@ You may use ngrok (https:/ngrok.com/) to install/debug the webhook calls, it'll 
 Then put this url as your desired github project's Webhook's Payload URL
 ```
 ${publicUrl}/issues/webhook
-``` 
+```
+And then select the Content Type as `application/json`.
+
+It's better to select the **individual "Issues" Event** (which are the one we'll be working with), but the application **is able to filter** the other ones **if** you select **send me everything**
 
 Example:
 ```
@@ -60,6 +63,8 @@ POST http://3e96a305.ngrok.io/issues/webhook
 It's required for the Request Body to have a JSON object with the following properties:
 - action: a String type
 - issue: a JSON object type that contains a 'id' property with a number type.
+
+The object also **CAN NOT** have a **not null** `comment` property, or else it'll be considered a "Issue Comment Event", instead of a "Issue Event" 
 
 
 **2.** Then, you can use this URL to get events from a issue by a issueId
@@ -88,3 +93,14 @@ example:
     },
 ]
 ```
+
+<h3>Logs</h3>
+
+The application's logs can be found in `/var/log/octoevents.log` file from the context in which it is deployed.
+
+For example, if you're using the Docker deployment, you can access it with
+
+```
+docker exec -it guilbt_octoevents cat /var/log/octoevents.log
+```
+Changing `cat` for whichever text reader/editor you might use/prefer.
