@@ -28,7 +28,7 @@ class IssueControllerTest {
 	}
 
 	fun mockMvcPostWebhookEvent(content: String): ResultActions {
-		return mockMvc.perform(MockMvcRequestBuilders.post("/issues/webhook").content(content))
+		return mockMvc.perform(MockMvcRequestBuilders.post("/issues/webhook").contentType("application/json").content(content))
 	}
 
 	fun mockMvcpostDefaultWebhookEditEvent(): ResultActions {
@@ -89,7 +89,7 @@ class IssueControllerTest {
 					"issue": {
 						"id": ${issueId}
 					},
-					"action": ${action}
+					"action": "${action}"
 				}
 			""");
 		}
