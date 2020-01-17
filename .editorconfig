@@ -3,6 +3,6 @@
 end_of_line = lf
 insert_final_newline = true
 
-[*.{js,java,css,html,xml,xhtml,ftl,kt}]
+[*.{js, java, css, html, xml, xhtml, ftl, kt}]
 charset = utf-8
 indent_style = tab

@@ -1,6 +1,5 @@
 package com.guilbt.octoevents
 
-import io.javalin.Javalin
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest

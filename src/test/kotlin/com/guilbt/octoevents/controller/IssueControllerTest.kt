@@ -20,31 +20,26 @@ import javax.transaction.Transactional
 @AutoConfigureMockMvc
 @Transactional
 class IssueControllerTest {
-	private val DEFAULT_EDIT_EVENT = """
+	@Autowired
+	private lateinit var mockMvc: MockMvc
+
+	fun mockMvcGetIssueEventsByIssue(issueId: Long): ResultActions {
+		return mockMvc.perform(MockMvcRequestBuilders.get("/issues/${issueId}/events"))
+	}
+
+	fun mockMvcPostWebhookEvent(content: String): ResultActions {
+		return mockMvc.perform(MockMvcRequestBuilders.post("/issues/webhook").content(content))
+	}
+
+	fun mockMvcpostDefaultWebhookEditEvent(): ResultActions {
+		return mockMvcPostWebhookEvent("""
 		{
 			"issue": {
 				"id": 127389721893
 			},
 			"action": "edit"
 		}
-	""";
-
-	@Autowired
-	private lateinit var issueController: IssueController
-
-	@Autowired
-	private lateinit var mockMvc : MockMvc
-
-	fun mockMvcGetIssueEventsByIssue (issueId: Long) : ResultActions  {
-		return mockMvc.perform(MockMvcRequestBuilders.get("/issues/${issueId}/events"))
-	}
-
-	fun mockMvcPostWebhookEvent (content : String) : ResultActions {
-		return mockMvc.perform(MockMvcRequestBuilders.post("/issues/webhook").content(content))
-	}
-
-	fun mockMvcpostDefaultWebhookEditEvent () : ResultActions {
-		return mockMvcPostWebhookEvent(DEFAULT_EDIT_EVENT)
+	""")
 	}
 
 	@Test
@@ -67,7 +62,7 @@ class IssueControllerTest {
 			"action": "edit"
 		}
 		""")
-		.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
 	}
 
 	@Test
@@ -85,11 +80,11 @@ class IssueControllerTest {
 
 	@Test
 	fun testGettingIssueEventsByRandomEventGeneration() {
-		val qtd = Math.ceil(Math.random()*10).toInt();
+		val qtd = Math.ceil(Math.random() * 10).toInt();
 		val issueId = 21897398127398217L
 		val action = "edit"
-		for(i in 0 until qtd) {
-			mockMvcPostWebhookEvent( """
+		for (i in 0 until qtd) {
+			mockMvcPostWebhookEvent("""
 				{
 					"issue": {
 						"id": ${issueId}
@@ -102,7 +97,6 @@ class IssueControllerTest {
 		val responseJSON = JSONArray(responseString);
 		Assert.assertEquals(qtd, responseJSON.length())
 	}
-
 
 
 	@Test
